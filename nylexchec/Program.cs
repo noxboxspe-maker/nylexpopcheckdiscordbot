@@ -9,20 +9,16 @@ using Discord.WebSocket;
 
 public class Program
 {
-    // WARNING: Replace with your actual Bot Token and the ID of the channel you want to post in
     private const string DiscordBotToken = "[discordtoken]";
-    private const ulong TargetChannelId = [DISCORDCHANNELID]; // Replace with your Discord Channel ID
+    private const ulong TargetChannelId = [DISCORDCHANNELID]; 
 
-    // 1. Define the Steam API URL
     private const string ApiUrl = "https://api.steampowered.com/IGameServersService/GetServerList/v1/?key=[STEAMAPIKEY]&filter=addr\\[SERVERADDR:[SERVERPORT]";
 
     private readonly DiscordSocketClient _client;
 
-    // Field to store the ID of the message we will update.
     private ulong? _statusMessageId;
 
-    // Define the new update interval (3 seconds)
-    private const int UpdateIntervalSeconds = 2;
+    private const int UpdateIntervalSeconds = 2; // [UPDATEINTERVAL], 0 will get you rate limited, 1 is alright if you can restart it every now and than
 
     public static Task Main(string[] args) => new Program().MainAsync();
 
@@ -62,7 +58,6 @@ public class Program
     {
         while (true)
         {
-            // 2. Get the new Embed object and content (to be used if posting a new message)
             var (embed, content) = await GetServerStatusEmbed();
 
             if (_client.GetChannel(TargetChannelId) is ITextChannel channel)
@@ -71,22 +66,19 @@ public class Program
                 {
                     if (!_statusMessageId.HasValue)
                     {
-                        // 3. FIRST RUN: Post the initial message using the Embed
                         IUserMessage initialMessage = await channel.SendMessageAsync(
-                            text: content, // Use this for a clean, short status message or error.
-                            embed: embed // Use the rich Embed for the main data.
+                            text: content,
+                            embed: embed 
                         );
                         _statusMessageId = initialMessage.Id;
                         Console.WriteLine($"Posted initial status message: {_statusMessageId}");
                     }
                     else
                     {
-                        // 4. SUBSEQUENT RUNS: Edit the existing message
                         IUserMessage messageToEdit = (IUserMessage)await channel.GetMessageAsync(_statusMessageId.Value);
 
                         if (messageToEdit != null)
                         {
-                            // Modify the existing message with the new Embed and text
                             await messageToEdit.ModifyAsync(msg =>
                             {
                                 msg.Content = content;
@@ -112,12 +104,10 @@ public class Program
                 Console.WriteLine($"Error: Could not find text channel with ID {TargetChannelId}.");
             }
 
-            // 5. Wait for the faster interval (3 seconds)
             await Task.Delay(TimeSpan.FromSeconds(UpdateIntervalSeconds));
         }
     }
 
-    // 6. Updated API method to return an Embed and a simple content string
     private async Task<(Embed, string)> GetServerStatusEmbed()
     {
         try
@@ -135,7 +125,6 @@ public class Program
                 {
                     var server = servers[0];
 
-                    // Create a rich Discord Embed
                     var embed = new EmbedBuilder()
                         .WithTitle($"🎮 {server.Name}")
                         .WithColor(server.Players > 0 ? Color.Green : Color.LightGrey)
@@ -147,7 +136,6 @@ public class Program
                         .WithTimestamp(DateTimeOffset.UtcNow)
                         .Build();
 
-                    // Return the rich embed and a simple text status
                     return (embed, $"Current Player Count: **{server.Players}**");
                 }
                 else
@@ -177,8 +165,6 @@ public class Program
     }
 }
 
-// --- JSON Deserialization Models (UNCHANGED) ---
-// (The model definitions below are unchanged and are required for the code above to compile)
 
 public class ServerResponseRoot
 {
