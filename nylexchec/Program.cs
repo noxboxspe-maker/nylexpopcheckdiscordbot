@@ -11,7 +11,7 @@ public class Program
 {
     // WARNING: Replace with your actual Bot Token and the ID of the channel you want to post in
     private const string DiscordBotToken = "[discordtoken]";
-    private const ulong TargetChannelId = 1431880175636844644; // Replace with your Discord Channel ID
+    private const ulong TargetChannelId = [DISCORDCHANNELID]; // Replace with your Discord Channel ID
 
     // 1. Define the Steam API URL
     private const string ApiUrl = "https://api.steampowered.com/IGameServersService/GetServerList/v1/?key=[STEAMAPIKEY]&filter=addr\\[SERVERADDR:[SERVERPORT]";
