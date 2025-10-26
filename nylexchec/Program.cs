@@ -10,11 +10,11 @@ using Discord.WebSocket;
 public class Program
 {
     // WARNING: Replace with your actual Bot Token and the ID of the channel you want to post in
-    private const string DiscordBotToken = "MTQzMTg3NjA0NDEwMDczNTAyNg.GwU9QV.OBHh63rC7onQxnnON4Ddk_6IgVRR2ca354P9zE";
+    private const string DiscordBotToken = "[discordtoken]";
     private const ulong TargetChannelId = 1431880175636844644; // Replace with your Discord Channel ID
 
     // 1. Define the Steam API URL
-    private const string ApiUrl = "https://api.steampowered.com/IGameServersService/GetServerList/v1/?key=F932C0B2565DB7C6B301987FF666D5DF&filter=addr\\198.244.176.107:27015";
+    private const string ApiUrl = "https://api.steampowered.com/IGameServersService/GetServerList/v1/?key=[STEAMAPIKEY]&filter=addr\\[SERVERADDR:[SERVERPORT]";
 
     private readonly DiscordSocketClient _client;
 
